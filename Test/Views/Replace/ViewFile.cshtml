@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "ViewFile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //var text = ViewBag.text;
+}
+<h2>Text Document</h2>
+<hr />
+<div>
+    <p>@ViewBag.text</p>
+</div>
+<br />
+<form>
+    <button type="button" onclick="location.href='@Url.Action("Replace", "Home")'">Go Back</button>
+</form>

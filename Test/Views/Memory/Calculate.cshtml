@@ -1,0 +1,169 @@
+﻿@model Test.Models.Memory
+@{
+    ViewData["Title"] = "Virtual Memory Paging";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<hr />
+<h5>Total Memory: @Model.Total_RAM GB</h5>
+<h5>Memory Reserved for OS: @Model.Reserved_RAM GB</h5>
+<h5>Total Available Memory: @Model.Usable_RAM GB</h5>
+<h5>Page Frame Size: @Model.Frame_Size MB</h5>
+<h5>Page Frames: @Model.Total_Frames</h5>
+<br />  
+
+<div style="width:900px;height:305px">
+    <div style="border:solid #000000;width:385px; height:auto; padding-top:1em;padding-bottom:1em;padding-left:1em;padding-right:1em; float:left">
+
+        <label style="padding-left:130px"><b><u>Page Frames</u></b></label>
+        <br />
+
+        @{
+            for (int i = 1; i <= @Model.Total_Frames; i++)
+            {
+                <div style="width:35px;height:35px; border:1px solid #000000; float:left; text-align:center; padding-top:0.4em" id="@i">
+                    
+                </div>
+
+                if (i % 10 == 0)
+                {
+                    <br />
+                }
+            }
+        }
+
+    </div>
+    <div style="width:385px; height:300px;float:right">
+
+        <table style="padding-left:50px">
+            <tr>
+                <td>
+                    <label>Load Random Pages </label>
+                </td>
+                <td>
+                    <label></label>
+                </td>
+                <td>
+                    <input type="button" value="Load Pages" onclick="randomPages()" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label></label>
+                </td>
+                <td>
+                    <label></label>
+                </td>
+                <td>
+                    <label></label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="number" name="a" id="a" required/>
+                </td>
+                <td>
+                    <label></label>
+                </td>
+                <td>
+                    <input type="button" value="Check Page" onclick="checkFrames()" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    var pages_loaded = [];
+    var oldest = 1;
+
+    async function checkFrames() {
+
+        var a = document.getElementById('a').value;
+        var loaded = false;
+
+        for (var i = 1; i <=@Model.Total_Frames; i++) {
+
+            if (document.getElementById(i).innerHTML == a) {
+                loaded = true;
+                break;
+            }
+
+            loaded = false;
+        }
+        if (!loaded) {
+            alert("PAGE FAULT!!!");
+            swap(a);
+        }
+        else {
+            for (var i = 1; i <=@Model.Total_Frames; i++) {
+
+            if (document.getElementById(i).innerHTML == document.getElementById('a').value) {
+                alert("Page " + document.getElementById('a').value+" is loaded into frame " + i);
+                document.getElementById(i).style.background = '#41FF27';
+                document.getElementById(i).className = "blinking";
+                await sleep(2000);
+                document.getElementById(i).className = "";
+                document.getElementById(i).style.background = '#FFCE27';
+                document.getElementById('a').value = "";
+                break;
+                }
+            }
+        }
+    }
+
+    async function randomPages() {
+
+
+        for (var i = 0; i < (@Model.Total_Frames+20); i++) {
+            pages_loaded[i] = i+1;
+        }
+
+        shuffle(pages_loaded);
+
+        for (var i = 1; i <= @Model.Total_Frames; i++) {
+            document.getElementById(i).style.background = '#FFCE27';
+            document.getElementById(i).innerHTML = pages_loaded[i];
+            await sleep( (Math.random() * (100 - 20) + 20) );
+        }
+
+        for (var i = 0; i < 19; i++) {
+            pages_loaded.pop();
+        }
+        oldest = 1;
+    }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    async function swap(page) {
+        if (oldest == (@Model.Total_Frames+1))
+            oldest = 1;
+
+        document.getElementById(oldest).innerHTML = page;
+        document.getElementById(oldest).style.background = '#35ABF7';
+        document.getElementById(oldest).className = "blinking";
+        await sleep(2000);
+        document.getElementById(oldest).className = "";
+        document.getElementById(oldest).style.background = '#FFCE27';
+        document.getElementById('a').value = "";
+        oldest++;
+    }
+
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function blinker() {
+        $('.blinking').fadeOut(300);
+        $('.blinking').fadeIn(300);
+    }
+    setInterval(blinker,2000);
+
+</script>

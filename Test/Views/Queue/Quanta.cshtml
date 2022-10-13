@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Time Quantum";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Set time quantum of each Queue</h2>
+
+<form method="post" enctype="multipart/form-data" asp-controller="Queue" asp-action="Schedule">
+    <table>
+        <tr>
+            <td>
+                <input type="range" id="Queue1" name="Queue1" min="1" max="10" value="1" style="width:300px; height:25px; border-radius:15px" />
+            </td>
+            <td><label style="visibility:hidden">TE</label></td>
+            <td>
+                <label>Queue 1: <label id="q1"></label></label>
+            </td>
+        </tr>
+        <tr>
+            <td><p style="visibility:hidden">sd</p></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="range" id="Queue2" name="Queue2" min="1" max="10" style="width:300px; height:25px; border-radius:15px" value="2" />
+            </td>
+            <td><label style="visibility:hidden">TE</label></td>
+            <td>
+                <label>Queue 2: <label id="q2"></label></label>
+            </td>
+        </tr>
+        <tr>
+            <td><p style="visibility:hidden">sd</p></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="range" id="Queue3" name="Queue3" max="10" value="3" style="width:300px; height:25px; border-radius:15px" />
+            </td>
+            <td><label style="visibility:hidden">TE</label></td>
+            <td>
+                <label>Queue 3: <label id="q3"></label></label>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <input type="submit" value="Schedule Processes" />
+</form>
+
+<script>
+
+    var slider3 = document.getElementById("Queue3");
+    var slider2 = document.getElementById("Queue2");
+    var slider1 = document.getElementById("Queue1");
+    var output3 = document.getElementById("q3");
+    var output2 = document.getElementById("q2");
+    var output1 = document.getElementById("q1");
+
+
+    slider3.oninput = function () {
+        output3.innerHTML = this.value;
+        slider2.max = this.value;
+        output2.innerHTML = slider2.value;
+        slider1.max = slider2.value;
+        output1.innerHTML = slider1.value;
+    }
+
+    slider2.oninput = function () {
+        output2.innerHTML = this.value;
+        slider1.max = this.value;
+        output1.innerHTML = slider1.value;
+    }
+
+    slider1.oninput = function () {
+        output1.innerHTML = this.value;
+    }
+
+    window.onload = function () {
+        output1.innerHTML = "1";
+        output2.innerHTML = "2";
+        output3.innerHTML = "3";
+    }
+
+</script>

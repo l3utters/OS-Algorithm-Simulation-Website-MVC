@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Virtual";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Specifiy Memory Parameters</h2>
+<h5>Enter values for page sizes and memory reserved for Operating System</h5>
+<br />
+
+<h6>Total Memory in System: @ViewBag.Total GB</h6>
+<br />
+
+<form method="post" enctype="multipart/form-data" asp-controller="Memory" asp-action="Calculate">
+    <table>
+        <tr>
+            <th>
+                Reserved for OS
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" name="osRam" required lang="de-de"min="0.1" step="0.1"/><label>GB</label>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table>
+        <tr>
+            <th>
+                Size of page frames
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" name="frames" min="250" step="10" required /><label>MB</label>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <input type="submit" name="submit" value="Start Paging" />
+</form>
+

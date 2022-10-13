@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewData["Title"] = "Queue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Processes to list</h2>
+<h5>Add processes to the process list to simulate multi-queue scheduling</h5>
+<br />
+<form method="post" enctype="multipart/form-data" asp-controller="Queue" asp-action="Add">
+    <table >
+        <tr style="width:100%">
+            <th>Arrival Time</th>
+        </tr>
+        <tr>
+
+            <td>
+                <input type="number" name="time" required />
+            </td>
+
+        </tr>
+    </table>
+    <br />
+    <table>
+        <tr>
+            <th>Process Length</th>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" name="length" required />
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table>
+        <tr>
+            <td>
+                <input type="submit" name="submit" value="Enter Process" />
+            </td>
+            <td>
+                <label style="visibility:hidden">l</label>
+            </td>
+            <td>
+                <button type="button" onclick="location.href='@Url.Action("Data","Queue")'">View Processes</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<br />
+<form>
+    <button type="button" onclick="location.href='@Url.Action("Quanta","Queue")'">Start Scheduling</button>
+</form>
+
+

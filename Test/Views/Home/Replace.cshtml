@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Word Replacement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Replaces the old word with the new word in a text document</h2>
+<hr />
+
+<form method="post" enctype="multipart/form-data" asp-controller="Replace" asp-action="Display">
+    <div>
+        <div>
+            <label for="oldS">Original Word:</label>
+            <input type="text" id="oldS" name="oldS" required>
+        </div>
+        <br />
+        <div>
+            <label for="newS">New Word:</label>
+            <input type="text" id="newS" name="newS" required>
+        </div>
+        <br />
+        <!--<div>
+            <label for="FileUpload">Text File to Change</label>
+            <input type="file" name="FileUpload">
+        </div>
+        <br />-->
+
+    </div>
+    <div>
+        <input type="submit" value="Replace Word" /><br />
+    </div>
+</form>
+<div>
+    <br />
+    <button type="button" onclick="location.href='@Url.Action("ViewFile", "Replace")'">View Test Document</button>
+</div>

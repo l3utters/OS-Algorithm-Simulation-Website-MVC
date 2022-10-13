@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Test.Models.Process>
+
+@{
+    ViewData["Title"] = "Data";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Process Information</h2>
+
+<table style="float:none">
+    <tr>
+        <td>
+            <form>
+                <button type="button" onclick="location.href='@Url.Action("Quanta","Queue")'">Start Scheduling</button>
+            </form>
+        </td>
+        <td>
+            <form>
+                <button type="button" onclick="location.href='@Url.Action("Queue","Home")'">Add Process</button>
+            </form>
+        </td>
+        <td>
+            <form>
+                <button type="button" onclick="location.href='@Url.Action("Clear","Queue")'">Clear List</button>
+            </form>
+        </td>
+        <td><label style="visibility:hidden">o</label></td>
+
+    </tr>
+</table>
+<br />
+<table style="width:600px">
+    <thead>
+        <tr >
+            <th style="border:groove; height:80px; text-align:center">
+                Name
+            </th>
+            <th style="border:groove; height:80px; text-align:center">
+                Arrival Time
+            </th>
+            <th style="border:groove; height:80px; text-align:center">
+                Execution Length
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="border:groove; height:60px; padding-left:2em">
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td style="border:groove; height:60px; padding-left:2em">
+                    @Html.DisplayFor(modelItem => item.arrival_time)
+                </td>
+                <td style="border:groove; height:60px;padding-left:2em">
+                    @Html.DisplayFor(modelItem => item.length)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

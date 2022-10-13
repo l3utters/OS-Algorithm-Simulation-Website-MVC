@@ -1,0 +1,33 @@
+﻿@model Test.Models.Word
+
+@{
+    ViewData["Title"] = "Display";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.Words == null)
+    {
+        var mes = ViewBag.message;
+        <h3>@mes</h3>
+        <form>
+            <button type="button" onclick="location.href='@Url.Action("Replace", "Home")'">Try Again</button>
+        </form>
+    }
+    else
+    {
+        var data = ViewBag.Words;
+
+        <h3>Replaced '@data.OldString' with '@data.NewString'</h3>
+        <br />
+        <h4>Old Text</h4>
+        <p>@ViewBag.Old</p><br />
+        <h4>New Text</h4>
+        <p>@ViewBag.New</p><br />
+
+        <br />
+        <form>
+            <button type="button" onclick="location.href='@Url.Action("Replace", "Home")'">Try Again</button>
+        </form>
+
+    }
+}
+
+

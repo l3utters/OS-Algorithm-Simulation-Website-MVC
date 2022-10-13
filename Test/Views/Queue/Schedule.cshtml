@@ -1,0 +1,120 @@
+﻿@model IEnumerable<Test.Models.Process>
+
+@{
+    ViewData["Title"] = "Schedule";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int q1 = ViewBag.Queue1;
+    int q2 = ViewBag.Queue2;
+    int q3 = ViewBag.Queue3;
+    string[] order = ViewBag.QUEUE;
+    int ascii = 65;
+    List<Process> list = ViewBag.List;
+
+}
+
+<h2>Scheduling</h2>
+<h6>Q1: @q1  | Q2: @q2  | Q3: @q3</h6>
+<br />
+<form>
+    <input type="button" value="Start Scheduling" onclick="schedule()"/>
+</form>
+<br /> 
+<br />
+<table>
+    <tr>
+        <td>
+            <p>Cycle: </p>
+        </td>
+        <td style="padding-left:1em">
+            <p id="cycle"></p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>Schedule Order: </p>
+        </td>
+        <td style="padding-left:1em; width:700px">
+            <p id="string"></p>
+        </td>
+    </tr>
+</table>
+<br />
+<br />
+<table>
+    <thead>
+        <tr>
+            <th style="text-align:center; border-right:solid; border-bottom:solid; padding-top:1em;padding-bottom:1em; padding-right:1em">
+                Arrival Time
+            </th>
+            <th style="border-bottom:solid"><label style="visibility:hidden">te</label></th>
+            <th style="width:700px; border-bottom:solid; padding-top:1em;padding-bottom:1em">
+                Scheduling Visualization
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td style="border-right:solid; text-align:center; border-bottom:solid; padding-top:1em;padding-bottom:1em; padding-right:1em">
+                @Html.DisplayFor(modelItem => item.arrival_time)
+            </td>
+            <th style="border-bottom:solid"><label style="visibility:hidden">te</label></th>
+            <td style="width:700px; border-bottom:solid; padding-top:1em;padding-bottom:1em; padding-right:1em">
+                @{
+                    string c = Char.ConvertFromUtf32(ascii);
+                }
+
+                @for (int i = 1; i <= item.length; i++)
+                {
+                    <div style="width:35px;height:35px; border:1px solid #000000; float:left; text-align:center; padding-top:0.4em; background: #e1e1e1" id="@Html.DisplayFor(modelItem => item.name)@i">
+                        @Html.DisplayFor(modelItem => item.name)@i
+                    </div>
+                    if (i % 20 == 0)
+                    {
+                        <br />
+                    }
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<br />
+
+@*<p>
+    @for (int i=0;i<order.Length;i++)
+    {
+        <label>@order[i]</label>
+        <br />
+    }
+</p>*@
+
+<script>
+
+    var items = [];
+
+    @foreach (var d in order)
+    {
+        @:items.push("@d");
+    }
+
+    async function schedule() {
+        
+
+        for (var i = 0; i < items.length; i++) {
+            document.getElementById(items[i]).style.background = '#F36B13';
+            document.getElementById("string").innerHTML = document.getElementById("string").innerHTML + items[i]+" ";
+            document.getElementById("cycle").innerHTML = i;
+            await sleep(550);
+        }
+
+        document.getElementById("cycle").innerHTML = "Done";
+
+    };
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+</script>
